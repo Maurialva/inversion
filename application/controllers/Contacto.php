@@ -70,13 +70,15 @@ class Contacto extends CI_Controller {
 		
 		if(!$this->session->userdata("uid")){
 			$this->load->view('recuperacion/confirmacion',$this->datos);
+		}else{
+			$this->load->model("usuarios_model");
+			if ($this->usuarios_model->obtener($this->session->userdata("uid"))["tema"]=="claro") {
+				$this->load->view('recuperacion/confirmacion',$this->datos);
+			} else {
+				$this->load->view('recuperacion/confirmacionoscuro',$this->datos);
+			}
 		}
-		$this->load->model("usuarios_model");
-		if ($this->usuarios_model->obtener($this->session->userdata("uid"))["tema"]=="claro") {
-			$this->load->view('recuperacion/confirmacion',$this->datos);
-		} else {
-			$this->load->view('recuperacion/confirmacionoscuro',$this->datos);
-		}
+		
 		
 	}
 }
